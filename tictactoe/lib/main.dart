@@ -31,39 +31,93 @@ class _HomePageState extends State<HomePage> {
     '',
   ];
 
+  var myTextSyle = TextStyle(color: Colors.white, fontSize: 30);
+  int ohScore = 0;
+  int exScore = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      body: GridView.builder(
-          itemCount: 9,
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                _tapped(index);
-              },
-              child: Container(
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.grey)),
-                child: Center(
-                  child: Text(
-                    displayExOh[index],
-                    style: TextStyle(color: Colors.white, fontSize: 40),
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Player X',
+                          style: myTextSyle,
+                        ),
+                        Text(
+                          exScore.toString(),
+                          style: myTextSyle,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Player O',
+                          style: myTextSyle,
+                        ),
+                        Text(
+                          ohScore.toString(),
+                          style: myTextSyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            );
-          }),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: GridView.builder(
+                itemCount: 9,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _tapped(index);
+                    },
+                    child: Container(
+                      decoration:
+                          BoxDecoration(border: Border.all(color: Colors.grey)),
+                      child: Center(
+                        child: Text(
+                          displayExOh[index],
+                          style: TextStyle(color: Colors.white, fontSize: 40),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 
   void _tapped(int index) {
     setState(() {
-      if (ohTurn) {
+      if (ohTurn && displayExOh[index] == '') {
         displayExOh[index] = 'o';
-      } else {
+      } else if (!ohTurn && displayExOh[index] == '') {
         displayExOh[index] = 'x';
       }
 
@@ -73,7 +127,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _checkWinner() {
-
     //first row
     if (displayExOh[0] == displayExOh[1] &&
         displayExOh[0] == displayExOh[2] &&
@@ -94,7 +147,7 @@ class _HomePageState extends State<HomePage> {
         displayExOh[6] != '') {
       _showWinDialog(displayExOh[6]);
     }
-    
+
     //first column
     if (displayExOh[0] == displayExOh[3] &&
         displayExOh[0] == displayExOh[6] &&
@@ -116,7 +169,6 @@ class _HomePageState extends State<HomePage> {
       _showWinDialog(displayExOh[2]);
     }
 
-
     //first diagonal
     if (displayExOh[0] == displayExOh[4] &&
         displayExOh[0] == displayExOh[8] &&
@@ -134,12 +186,37 @@ class _HomePageState extends State<HomePage> {
 
   void _showWinDialog(String winner) {
     showDialog(
-      context: context,
-    builder: (BuildContext context){
-      return AlertDialog(
-        title: Text('WINNER IS: ' + winner.toUpperCase()),
-      );
+       barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('WINNER IS: ' + winner.toUpperCase()),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Play Again!', style: TextStyle(color: Colors.blue)),
+                onPressed: (){
+                  _clearBoard();
+                Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+
+    if (winner == 'o') {
+      ohScore += 1;
+    } else if (winner == 'x') {
+      exScore += 1;
     }
-    );
+  }
+
+  void _clearBoard() {
+
+setState(() {
+      for(int i=0; i<9; i++){
+      displayExOh[i] = '';
+    }
+});
+
   }
 }
