@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: use_key_in_widget_constructors
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -23,12 +24,11 @@ class _HomePageState extends State<HomePage> {
   int ohScore = 0;
   int exScore = 0;
   int filledBoxes = 0;
+  String playAgain = 'Play Again!';
 
-  static var myNewFont = GoogleFonts.pressStart2p(
-      textStyle: TextStyle(color: Colors.black, letterSpacing: 3));
   static var myNewFontWhite = GoogleFonts.pressStart2p(
       textStyle:
-          TextStyle(color: Colors.white, letterSpacing: 3, fontSize: 15));
+          const TextStyle(color: Colors.white, letterSpacing: 3, fontSize: 15));
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             flex: 3,
             child: GridView.builder(
                 itemCount: 9,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                       child: Center(
                         child: Text(
                           displayExOh[index],
-                          style: TextStyle(color: Colors.white, fontSize: 40),
+                          style: const TextStyle(color: Colors.white, fontSize: 40),
                         ),
                       ),
                     ),
@@ -192,9 +192,9 @@ class _HomePageState extends State<HomePage> {
           return AlertDialog(
             title: Text('WINNER IS: ' + winner.toUpperCase()),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child:
-                    Text('Play Again!', style: TextStyle(color: Colors.blue)),
+                    Text(playAgain, style: const TextStyle(color: Colors.blue)),
                 onPressed: () {
                   _clearBoard();
                   Navigator.of(context).pop();
@@ -217,11 +217,11 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('DRAW'),
+            title: const Text('DRAW'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child:
-                    Text('Play Again!', style: TextStyle(color: Colors.blue)),
+                    Text(playAgain, style: const TextStyle(color: Colors.blue)),
                 onPressed: () {
                   _clearBoard();
                   Navigator.of(context).pop();
