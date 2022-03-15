@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       textStyle: TextStyle(color: Colors.black, letterSpacing: 3));
   static var myNewFontWhite = GoogleFonts.pressStart2p(
       textStyle:
-          TextStyle(color: Colors.white, letterSpacing: 3, fontSize: 10));
+          TextStyle(color: Colors.white, letterSpacing: 3, fontSize: 15));
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(30.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
     if (displayExOh[2] == displayExOh[4] &&
         displayExOh[2] == displayExOh[6] &&
         displayExOh[2] != '') {
-      _showWinDialog(displayExOh[3]);
+      _showWinDialog(displayExOh[2]);
     }
   }
 
