@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   bool ohTurn = true; // the first player is O!
   int ohScore = 0;
   int exScore = 0;
+  int filledBoxes = 0;
 
   static var myNewFont = GoogleFonts.pressStart2p(
       textStyle: TextStyle(color: Colors.black, letterSpacing: 3));
@@ -112,8 +113,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       if (ohTurn && displayExOh[index] == '') {
         displayExOh[index] = 'o';
+        filledBoxes += 1;
       } else if (!ohTurn && displayExOh[index] == '') {
         displayExOh[index] = 'x';
+        filledBoxes += 1;
       }
 
       ohTurn = !ohTurn;
@@ -130,52 +133,54 @@ class _HomePageState extends State<HomePage> {
     }
 
     //second row
-    if (displayExOh[3] == displayExOh[4] &&
+    else if (displayExOh[3] == displayExOh[4] &&
         displayExOh[3] == displayExOh[5] &&
         displayExOh[3] != '') {
       _showWinDialog(displayExOh[3]);
     }
 
     //third row
-    if (displayExOh[6] == displayExOh[7] &&
+    else if (displayExOh[6] == displayExOh[7] &&
         displayExOh[6] == displayExOh[8] &&
         displayExOh[6] != '') {
       _showWinDialog(displayExOh[6]);
     }
 
     //first column
-    if (displayExOh[0] == displayExOh[3] &&
+    else if (displayExOh[0] == displayExOh[3] &&
         displayExOh[0] == displayExOh[6] &&
         displayExOh[0] != '') {
       _showWinDialog(displayExOh[0]);
     }
 
     //second column
-    if (displayExOh[1] == displayExOh[4] &&
+    else if (displayExOh[1] == displayExOh[4] &&
         displayExOh[1] == displayExOh[7] &&
         displayExOh[1] != '') {
       _showWinDialog(displayExOh[1]);
     }
 
     //third column
-    if (displayExOh[2] == displayExOh[5] &&
+    else if (displayExOh[2] == displayExOh[5] &&
         displayExOh[2] == displayExOh[8] &&
         displayExOh[2] != '') {
       _showWinDialog(displayExOh[2]);
     }
 
     //first diagonal
-    if (displayExOh[0] == displayExOh[4] &&
+    else if (displayExOh[0] == displayExOh[4] &&
         displayExOh[0] == displayExOh[8] &&
         displayExOh[0] != '') {
       _showWinDialog(displayExOh[0]);
     }
 
     //second diagonal
-    if (displayExOh[2] == displayExOh[4] &&
+    else if (displayExOh[2] == displayExOh[4] &&
         displayExOh[2] == displayExOh[6] &&
         displayExOh[2] != '') {
       _showWinDialog(displayExOh[2]);
+    } else if (filledBoxes == 9) {
+      _showDrawDialog();
     }
   }
 
@@ -206,11 +211,34 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _showDrawDialog() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('DRAW'),
+            actions: <Widget>[
+              FlatButton(
+                child:
+                    Text('Play Again!', style: TextStyle(color: Colors.blue)),
+                onPressed: () {
+                  _clearBoard();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   void _clearBoard() {
     setState(() {
       for (int i = 0; i < 9; i++) {
         displayExOh[i] = '';
       }
     });
+
+    filledBoxes = 0;
   }
 }
