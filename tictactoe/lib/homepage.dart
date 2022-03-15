@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Expanded(
+            // ignore: avoid_unnecessary_containers
             child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +95,8 @@ class _HomePageState extends State<HomePage> {
                       child: Center(
                         child: Text(
                           displayExOh[index],
-                          style: const TextStyle(color: Colors.white, fontSize: 40),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 40),
                         ),
                       ),
                     ),
@@ -179,7 +181,10 @@ class _HomePageState extends State<HomePage> {
         displayExOh[2] == displayExOh[6] &&
         displayExOh[2] != '') {
       _showWinDialog(displayExOh[2]);
-    } else if (filledBoxes == 9) {
+    }
+
+    //draw case
+    else if (filledBoxes == 9) {
       _showDrawDialog();
     }
   }
